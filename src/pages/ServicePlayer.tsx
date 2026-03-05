@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMemorials } from '@/lib/store';
 import { generateSpeech } from '@/lib/tts';
-import { SCRIPTURES, LORD_PRAYER } from '@/lib/constants';
+import { SCRIPTURES, LORD_PRAYER, HYMNS } from '@/lib/constants';
 import { Button } from '@/components/ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Volume2, VolumeX, Play, Pause, X } from 'lucide-react';
@@ -415,12 +415,33 @@ export default function ServicePlayer() {
                   <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto animate-pulse">
                     <Volume2 size={32} className="text-primary" />
                   </div>
-                  <p className="text-sm text-white/60">
-                    {(() => {
-                      const val = step.id === 'hymn1' ? memorial.hymn1 : memorial.hymn2;
-                      return /^\d+$/.test(val) ? `찬송가 ${val}장` : '선택한 찬송가';
-                    })()}
-                  </p>
+                  <div className="space-y-1">
+                    <p className="text-sm text-white/60">
+                      {(() => {
+                        const val = step.id === 'hymn1' ? memorial.hymn1 : memorial.hymn2;
+                        return /^\d+$/.test(val) ? `찬송가 ${val}장` : '선택한 찬송가';
+                      })()}
+                    </p>
+                    <h4 className="text-lg font-serif text-primary">
+                      {(() => {
+                        const val = step.id === 'hymn1' ? memorial.hymn1 : memorial.hymn2;
+                        const hymn = HYMNS.find(h => h.url === val);
+                        return hymn ? hymn.title.split(' (')[0] : '';
+                      })()}
+                    </h4>
+                  </div>
+
+                  {/* Lyrics Display */}
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 max-h-[300px] overflow-y-auto w-full max-w-lg mx-auto">
+                    <p className="text-white/80 leading-relaxed whitespace-pre-wrap font-serif text-sm sm:text-base">
+                      {(() => {
+                        const val = step.id === 'hymn1' ? memorial.hymn1 : memorial.hymn2;
+                        const hymn = HYMNS.find(h => h.url === val);
+                        return hymn?.lyrics || "가사 정보가 없습니다.";
+                      })()}
+                    </p>
+                  </div>
+
                   {/* Audio Controls */}
                   <div className="flex justify-center">
                     <Button 

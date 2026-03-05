@@ -53,7 +53,7 @@ export default function LoginPage() {
 
           <Button 
             variant="outline" 
-            className="w-full"
+            className="w-full text-text border-accent"
             onClick={() => signIn()} // Just mock sign in for now
           >
             이메일로 로그인

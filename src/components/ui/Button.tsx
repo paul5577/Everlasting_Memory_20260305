@@ -2,12 +2,12 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<htmlbuttonelement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = React.forwardRef<htmlbuttonelement, buttonprops="">(
   ({ className, variant = 'primary', size = 'md', children, ...props }, ref) => {
     const variants = {
       primary: 'bg-accent text-white hover:bg-accent/90 shadow-sm',
@@ -23,17 +23,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     return (
-      <motion.button
-        ref={ref}
-        whileTap={{ scale: 0.98 }}
-        className={cn(
-          'inline-flex items-center justify-center rounded-xl font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-50',
-          variants[variant],
-          sizes[size],
-          className
-        )}
-        {...props}
-      >
+      <motion.button ref="{ref}" whiletap="{{" scale:="" 0.98="" }}="" classname="{cn(" 'inline-flex="" items-center="" justify-center="" rounded-xl="" font-medium="" transition-colors="" focus-visible:outline-none="" focus-visible:ring-2="" focus-visible:ring-accent="" disabled:pointer-events-none="" disabled:opacity-50',="" variants[variant],="" sizes[size],="" classname="" )}="" {...props}="">
         {children}
       </motion.button>
     );

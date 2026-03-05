@@ -49,7 +49,7 @@ const DEFAULT_MEMORIALS: Memorial[] = [
 ];
 
 export function useMemorials() {
-  const [memorials, setMemorials] = useState<Memorial[]>(() => {
+  const [memorials, setMemorials] = useState<memorial[]>(() => {
     if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem('memorials');
     return stored ? JSON.parse(stored) : DEFAULT_MEMORIALS;
@@ -60,13 +60,13 @@ export function useMemorials() {
     localStorage.setItem('memorials', JSON.stringify(memorials));
   }, [memorials]);
 
-  const addMemorial = useCallback((memorial: Omit<Memorial, 'id'>) => {
+  const addMemorial = useCallback((memorial: Omit<memorial, 'id'="">) => {
     const newMemorial = { ...memorial, id: crypto.randomUUID() };
     setMemorials(prev => [...prev, newMemorial]);
     return newMemorial.id;
   }, []);
 
-  const updateMemorial = useCallback((id: string, updatedData: Partial<Omit<Memorial, 'id'>>) => {
+  const updateMemorial = useCallback((id: string, updatedData: Partial<omit<memorial, 'id'="">>) => {
     setMemorials(prev => prev.map(m => m.id === id ? { ...m, ...updatedData } : m));
   }, []);
 

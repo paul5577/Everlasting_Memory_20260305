@@ -51,14 +51,14 @@ export default function ServicePlayer() {
   
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string |="" null="">(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isLoadingTTS, setIsLoadingTTS] = useState(false);
-  const [ttsCache, setTtsCache] = useState<record<string, string="">>({});
-  const [loadingTexts, setLoadingTexts] = useState<set<string>>(new Set());
-  const shouldPlayWhenLoadedRef = useRef<string |="" null="">(null);
-  const audioRef = useRef<htmlaudioelement |="" null="">(null);
-  const audioContextRef = useRef<audiocontext |="" null="">(null);
-  const sourceNodeRef = useRef<audiobuffersourcenode |="" null="">(null);
+  const [ttsCache, setTtsCache] = useState<Record<string, string>>({});
+  const [loadingTexts, setLoadingTexts] = useState<Set<string>>(new Set());
+  const shouldPlayWhenLoadedRef = useRef<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -325,50 +325,62 @@ export default function ServicePlayer() {
   const step = steps[currentStep];
 
   return (
-    <div classname="fixed inset-0 bg-black text-white z-50 flex flex-col">
+    <div className="fixed inset-0 bg-black text-white z-50 flex flex-col">
       {/* Header */}
-      <div classname="h-16 flex items-center justify-between px-4 absolute top-0 w-full z-10">
-        <button onclick="{()" ==""> navigate(`/memorial/${id}`)} className="p-2 text-white/70 hover:text-white">
-          <x size="{24}"/>
+      <div className="h-16 flex items-center justify-between px-4 absolute top-0 w-full z-10">
+        <button onClick={() => navigate(`/memorial/${id}`)} className="p-2 text-white/70 hover:text-white">
+          <X size={24} />
         </button>
-        <div classname="text-sm font-medium text-white/70">
+        <div className="text-sm font-medium text-white/70">
           {currentStep + 1} / {steps.length}
         </div>
-        <div classname="w-10"/> {/* Spacer */}
+        <div className="w-10" /> {/* Spacer */}
       </div>
 
       {/* Main Content */}
-      <div classname="flex-1 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+      <div className="flex-1 flex flex-col items-center justify-center p-8 relative overflow-hidden">
         {/* Background Image with Blur */}
-        <div classname="absolute inset-0 z-0">
-          <img src="{memorial.photoUrl}" alt="Background" classname="w-full h-full object-cover opacity-30 blur-xl scale-110" referrerpolicy="no-referrer"/>
-          <div classname="absolute inset-0 bg-black/40"/>
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={memorial.photoUrl} 
+            alt="Background" 
+            className="w-full h-full object-cover opacity-30 blur-xl scale-110"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
-        <animatepresence mode="wait">
-          <motion.div key="{currentStep}" initial="{{" opacity:="" 0,="" y:="" 20="" }}="" animate="{{" opacity:="" 1,="" y:="" 0="" }}="" exit="{{" opacity:="" 0,="" y:="" -20="" }}="" transition="{{" duration:="" 0.5="" }}="" classname="z-10 text-center max-w-md w-full space-y-8">
-            <div classname="space-y-2">
-              <h2 classname="text-3xl font-serif font-medium text-primary">{step.title}</h2>
-              <p classname="text-white/60 font-light">{step.subtitle}</p>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="z-10 text-center max-w-md w-full space-y-8"
+          >
+            <div className="space-y-2">
+              <h2 className="text-3xl font-serif font-medium text-primary">{step.title}</h2>
+              <p className="text-white/60 font-light">{step.subtitle}</p>
             </div>
 
             {/* Step Specific Content */}
-            <div classname="min-h-[200px] flex flex-col items-center justify-center">
+            <div className="min-h-[200px] flex flex-col items-center justify-center">
               {step.id === 'intro' && (
-                <div classname="space-y-6">
-                  <div classname="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/20 mx-auto shadow-2xl">
-                    <img src="{memorial.photoUrl}" alt="{memorial.name}" classname="w-full h-full object-cover" referrerpolicy="no-referrer"/>
+                <div className="space-y-6">
+                  <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/20 mx-auto shadow-2xl">
+                    <img src={memorial.photoUrl} alt={memorial.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                   <div>
-                    <h3 classname="text-2xl font-serif">{memorial.name}</h3>
-                    <p classname="text-white/60 mt-1">{memorial.birthDate} - {memorial.deathDate}</p>
+                    <h3 className="text-2xl font-serif">{memorial.name}</h3>
+                    <p className="text-white/60 mt-1">{memorial.birthDate} - {memorial.deathDate}</p>
                   </div>
                 </div>
               )}
 
               {step.id === 'prayer' && (
-                <div classname="space-y-6">
-                  <div classname="text-base leading-relaxed font-serif text-white/90 text-left max-w-lg mx-auto p-6 bg-white/5 rounded-2xl border border-white/10">
+                <div className="space-y-6">
+                  <div className="text-base leading-relaxed font-serif text-white/90 text-left max-w-lg mx-auto p-6 bg-white/5 rounded-2xl border border-white/10">
                     사랑하는 가족 여러분,<br/>
                     오늘 우리는 하나님 앞에서 {memorial.name}님의 삶을 기억하며 추도예배를 드리려고 합니다.<br/><br/>
                     우리의 생명은 하나님께로부터 왔고, 또한 하나님께로 돌아갑니다.<br/>
@@ -377,16 +389,20 @@ export default function ServicePlayer() {
                     남은 우리 가족들이 믿음 안에서 서로 위로받는 시간이 되기를 바랍니다.<br/><br/>
                     이제 하나님께 예배를 드리겠습니다.
                   </div>
-                  <div classname="flex justify-center">
-                    <button variant="outline" size="sm" classname="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10" onclick="{()" ==""> loadTTS(`사랑하는 가족 여러분, 오늘 우리는 하나님 앞에서 ${memorial.name}님의 삶을 기억하며 추도예배를 드리려고 합니다. 우리의 생명은 하나님께로부터 왔고, 또한 하나님께로 돌아갑니다. 우리는 슬픔 가운데 있지만, 예수 그리스도 안에서 부활과 영원한 생명의 소망을 가지고 있습니다. 오늘 예배를 통해 하나님께 감사하며, 고인을 기억하고, 남은 우리 가족들이 믿음 안에서 서로 위로받는 시간이 되기를 바랍니다. 이제 하나님께 예배를 드리겠습니다.`)}
+                  <div className="flex justify-center">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10"
+                      onClick={() => loadTTS(`사랑하는 가족 여러분, 오늘 우리는 하나님 앞에서 ${memorial.name}님의 삶을 기억하며 추도예배를 드리려고 합니다. 우리의 생명은 하나님께로부터 왔고, 또한 하나님께로 돌아갑니다. 우리는 슬픔 가운데 있지만, 예수 그리스도 안에서 부활과 영원한 생명의 소망을 가지고 있습니다. 오늘 예배를 통해 하나님께 감사하며, 고인을 기억하고, 남은 우리 가족들이 믿음 안에서 서로 위로받는 시간이 되기를 바랍니다. 이제 하나님께 예배를 드리겠습니다.`)}
                       disabled={isLoadingTTS && !ttsCache[`사랑하는 가족 여러분, 오늘 우리는 하나님 앞에서 ${memorial.name}님의 삶을 기억하며 추도예배를 드리려고 합니다. 우리의 생명은 하나님께로부터 왔고, 또한 하나님께로 돌아갑니다. 우리는 슬픔 가운데 있지만, 예수 그리스도 안에서 부활과 영원한 생명의 소망을 가지고 있습니다. 오늘 예배를 통해 하나님께 감사하며, 고인을 기억하고, 남은 우리 가족들이 믿음 안에서 서로 위로받는 시간이 되기를 바랍니다. 이제 하나님께 예배를 드리겠습니다.`]}
                     >
                       {isLoadingTTS && !ttsCache[`사랑하는 가족 여러분, 오늘 우리는 하나님 앞에서 ${memorial.name}님의 삶을 기억하며 추도예배를 드리려고 합니다. 우리의 생명은 하나님께로부터 왔고, 또한 하나님께로 돌아갑니다. 우리는 슬픔 가운데 있지만, 예수 그리스도 안에서 부활과 영원한 생명의 소망을 가지고 있습니다. 오늘 예배를 통해 하나님께 감사하며, 고인을 기억하고, 남은 우리 가족들이 믿음 안에서 서로 위로받는 시간이 되기를 바랍니다. 이제 하나님께 예배를 드리겠습니다.`] ? (
-                        <div classname="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"/>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                       ) : isPlaying ? (
-                        <pause size="{16}" classname="mr-2"/>
+                        <Pause size={16} className="mr-2" />
                       ) : (
-                        <volume2 size="{16}" classname="mr-2"/>
+                        <Volume2 size={16} className="mr-2" />
                       )}
                       {isPlaying ? '중지' : '나레이션 듣기'}
                     </Button>
@@ -395,42 +411,50 @@ export default function ServicePlayer() {
               )}
 
               {(step.id === 'hymn1' || step.id === 'hymn2') && (
-                <div classname="space-y-6 w-full">
-                  <div classname="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto animate-pulse">
-                    <volume2 size="{32}" classname="text-primary"/>
+                <div className="space-y-6 w-full">
+                  <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto animate-pulse">
+                    <Volume2 size={32} className="text-primary" />
                   </div>
-                  <p classname="text-sm text-white/60">
+                  <p className="text-sm text-white/60">
                     {(() => {
                       const val = step.id === 'hymn1' ? memorial.hymn1 : memorial.hymn2;
                       return /^\d+$/.test(val) ? `찬송가 ${val}장` : '선택한 찬송가';
                     })()}
                   </p>
                   {/* Audio Controls */}
-                  <div classname="flex justify-center">
-                    <button variant="outline" classname="rounded-full w-16 h-16 border-white/30 text-white hover:bg-white/10" onclick="{toggleAudio}">
-                      {isPlaying ? <pause fill="currentColor"/> : <play fill="currentColor" classname="ml-1"/>}
+                  <div className="flex justify-center">
+                    <Button 
+                      variant="outline" 
+                      className="rounded-full w-16 h-16 border-white/30 text-white hover:bg-white/10"
+                      onClick={toggleAudio}
+                    >
+                      {isPlaying ? <Pause fill="currentColor" /> : <Play fill="currentColor" className="ml-1" />}
                     </Button>
                   </div>
                 </div>
               )}
 
               {step.id === 'representative_prayer' && (
-                <div classname="space-y-6 w-full max-w-lg">
-                  <div classname="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[400px] overflow-y-auto">
-                    <p classname="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
+                <div className="space-y-6 w-full max-w-lg">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[400px] overflow-y-auto">
+                    <p className="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
                       {memorial.representativePrayer || "주님, 오늘 우리는 사랑하는 고인을 기억하며 이 자리에 모였습니다. 고인의 삶을 통해 보여주신 은혜에 감사드립니다. 슬픔에 잠긴 유가족들에게 하늘의 위로와 소망을 더하여 주시옵소서. 부활의 주님을 믿으며 천국 소망을 확인하는 시간이 되게 하시고, 우리 가족이 더욱 믿음 안에서 화목하게 하옵소서. 예수님의 이름으로 기도드립니다. 아멘."}
                     </p>
                   </div>
-                  <div classname="flex justify-center">
-                    <button variant="outline" size="sm" classname="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10" onclick="{()" ==""> loadTTS(memorial.representativePrayer || `주님, 오늘 우리는 사랑하는 고인을 기억하며 이 자리에 모였습니다. 고인의 삶을 통해 보여주신 은혜에 감사드립니다. 슬픔에 잠긴 유가족들에게 하늘의 위로와 소망을 더하여 주시옵소서. 부활의 주님을 믿으며 천국 소망을 확인하는 시간이 되게 하시고, 우리 가족이 더욱 믿음 안에서 화목하게 하옵소서. 예수님의 이름으로 기도드립니다. 아멘.`)}
+                  <div className="flex justify-center">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10"
+                      onClick={() => loadTTS(memorial.representativePrayer || `주님, 오늘 우리는 사랑하는 고인을 기억하며 이 자리에 모였습니다. 고인의 삶을 통해 보여주신 은혜에 감사드립니다. 슬픔에 잠긴 유가족들에게 하늘의 위로와 소망을 더하여 주시옵소서. 부활의 주님을 믿으며 천국 소망을 확인하는 시간이 되게 하시고, 우리 가족이 더욱 믿음 안에서 화목하게 하옵소서. 예수님의 이름으로 기도드립니다. 아멘.`)}
                       disabled={isLoadingTTS && !ttsCache[memorial.representativePrayer || `주님, 오늘 우리는 사랑하는 고인을 기억하며 이 자리에 모였습니다. 고인의 삶을 통해 보여주신 은혜에 감사드립니다. 슬픔에 잠긴 유가족들에게 하늘의 위로와 소망을 더하여 주시옵소서. 부활의 주님을 믿으며 천국 소망을 확인하는 시간이 되게 하시고, 우리 가족이 더욱 믿음 안에서 화목하게 하옵소서. 예수님의 이름으로 기도드립니다. 아멘.`]}
                     >
                       {isLoadingTTS && !ttsCache[memorial.representativePrayer || `주님, 오늘 우리는 사랑하는 고인을 기억하며 이 자리에 모였습니다. 고인의 삶을 통해 보여주신 은혜에 감사드립니다. 슬픔에 잠긴 유가족들에게 하늘의 위로와 소망을 더하여 주시옵소서. 부활의 주님을 믿으며 천국 소망을 확인하는 시간이 되게 하시고, 우리 가족이 더욱 믿음 안에서 화목하게 하옵소서. 예수님의 이름으로 기도드립니다. 아멘.`] ? (
-                        <div classname="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"/>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                       ) : isPlaying ? (
-                        <pause size="{16}" classname="mr-2"/>
+                        <Pause size={16} className="mr-2" />
                       ) : (
-                        <volume2 size="{16}" classname="mr-2"/>
+                        <Volume2 size={16} className="mr-2" />
                       )}
                       {isPlaying ? '중지' : '나레이션 듣기'}
                     </Button>
@@ -439,27 +463,31 @@ export default function ServicePlayer() {
               )}
 
               {step.id === 'scripture' && (
-                <div classname="space-y-6">
+                <div className="space-y-6">
                   {(() => {
                     const script = SCRIPTURES.find(s => s.id === memorial.scriptureId) || SCRIPTURES[0];
                     return (
                       <>
-                        <div classname="space-y-4">
-                          <p classname="text-xl font-serif leading-relaxed whitespace-pre-wrap">
+                        <div className="space-y-4">
+                          <p className="text-xl font-serif leading-relaxed whitespace-pre-wrap">
                             {script.content}
                           </p>
-                          <p classname="text-sm text-primary">- {script.title} -</p>
+                          <p className="text-sm text-primary">- {script.title} -</p>
                         </div>
-                        <div classname="flex justify-center">
-                          <button variant="outline" size="sm" classname="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10" onclick="{()" ==""> loadTTS(`${script.content}. ${script.title} 말씀.`)}
+                        <div className="flex justify-center">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10"
+                            onClick={() => loadTTS(`${script.content}. ${script.title} 말씀.`)}
                             disabled={isLoadingTTS && !ttsCache[`${script.content}. ${script.title} 말씀.`]}
                           >
                             {isLoadingTTS && !ttsCache[`${script.content}. ${script.title} 말씀.`] ? (
-                              <div classname="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"/>
+                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                             ) : isPlaying ? (
-                              <pause size="{16}" classname="mr-2"/>
+                              <Pause size={16} className="mr-2" />
                             ) : (
-                              <volume2 size="{16}" classname="mr-2"/>
+                              <Volume2 size={16} className="mr-2" />
                             )}
                             {isPlaying ? '중지' : '나레이션 듣기'}
                           </Button>
@@ -471,24 +499,28 @@ export default function ServicePlayer() {
               )}
 
               {step.id === 'history' && (
-                <div classname="space-y-6 w-full max-w-lg">
-                  <div classname="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[400px] overflow-y-auto">
-                    <h3 classname="text-xl font-serif mb-4 text-primary">고인의 약력</h3>
-                    <p classname="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
+                <div className="space-y-6 w-full max-w-lg">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[400px] overflow-y-auto">
+                    <h3 className="text-xl font-serif mb-4 text-primary">고인의 약력</h3>
+                    <p className="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
                       {memorial.biography || "등록된 약력이 없습니다."}
                     </p>
                   </div>
                   {memorial.biography && (
-                    <div classname="flex justify-center">
-                      <button variant="outline" size="sm" classname="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10" onclick="{()" ==""> loadTTS(`고인의 약력을 소개합니다. ${memorial.biography}`)}
+                    <div className="flex justify-center">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10"
+                        onClick={() => loadTTS(`고인의 약력을 소개합니다. ${memorial.biography}`)}
                         disabled={isLoadingTTS && !ttsCache[`고인의 약력을 소개합니다. ${memorial.biography}`]}
                       >
                         {isLoadingTTS && !ttsCache[`고인의 약력을 소개합니다. ${memorial.biography}`] ? (
-                          <div classname="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"/>
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                         ) : isPlaying ? (
-                          <pause size="{16}" classname="mr-2"/>
+                          <Pause size={16} className="mr-2" />
                         ) : (
-                          <volume2 size="{16}" classname="mr-2"/>
+                          <Volume2 size={16} className="mr-2" />
                         )}
                         {isPlaying ? '중지' : '나레이션 듣기'}
                       </Button>
@@ -498,46 +530,58 @@ export default function ServicePlayer() {
               )}
 
               {step.id === 'gallery' && (
-                <div classname="space-y-6 w-full max-w-2xl">
+                <div className="space-y-6 w-full max-w-2xl">
                   {memorial.youtubeUrl && (
-                    <div classname="aspect-video w-full rounded-xl overflow-hidden border border-white/10 bg-black">
-                      <iframe width="100%" height="100%" src="{memorial.youtubeUrl.replace(&#39;watch?v=&#39;," 'embed="" ')}="" title="Memorial Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                    <div className="aspect-video w-full rounded-xl overflow-hidden border border-white/10 bg-black">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src={memorial.youtubeUrl.replace('watch?v=', 'embed/')} 
+                        title="Memorial Video" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowFullScreen
+                      ></iframe>
                     </div>
                   )}
                   
                   {memorial.gallery && memorial.gallery.length > 0 && (
-                    <div classname="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       {memorial.gallery.map((url, idx) => (
-                        <div key="{idx}" classname="aspect-square rounded-lg overflow-hidden bg-white/5">
-                          <img src="{url}" alt="{`Gallery" ${idx}`}="" classname="w-full h-full object-cover" referrerpolicy="no-referrer"/>
+                        <div key={idx} className="aspect-square rounded-lg overflow-hidden bg-white/5">
+                          <img src={url} alt={`Gallery ${idx}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                         </div>
                       ))}
                     </div>
                   )}
 
                   {!memorial.youtubeUrl && (!memorial.gallery || memorial.gallery.length === 0) && (
-                    <p classname="text-white/50">등록된 영상이나 사진이 없습니다.</p>
+                    <p className="text-white/50">등록된 영상이나 사진이 없습니다.</p>
                   )}
                 </div>
               )}
 
               {step.id === 'sermon' && (
-                <div classname="space-y-6">
-                  <div classname="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[300px] overflow-y-auto">
-                    <p classname="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
+                <div className="space-y-6">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[300px] overflow-y-auto">
+                    <p className="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
                       {memorial.sermon || "우리의 삶은 잠시 머무는 것이지만, 하나님 안에서의 생명은 영원합니다. 슬픔 가운데 있는 유가족들에게 하늘의 위로가 함께 하시기를 바랍니다."}
                     </p>
                   </div>
-                  <div classname="flex justify-center">
-                    <button variant="outline" size="sm" classname="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10" onclick="{()" ==""> loadTTS(memorial.sermon || `우리의 삶은 잠시 머무는 것이지만, 하나님 안에서의 생명은 영원합니다. 슬픔 가운데 있는 유가족들에게 하늘의 위로가 함께 하시기를 바랍니다.`)}
+                  <div className="flex justify-center">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10"
+                      onClick={() => loadTTS(memorial.sermon || `우리의 삶은 잠시 머무는 것이지만, 하나님 안에서의 생명은 영원합니다. 슬픔 가운데 있는 유가족들에게 하늘의 위로가 함께 하시기를 바랍니다.`)}
                       disabled={isLoadingTTS && !ttsCache[memorial.sermon || `우리의 삶은 잠시 머무는 것이지만, 하나님 안에서의 생명은 영원합니다. 슬픔 가운데 있는 유가족들에게 하늘의 위로가 함께 하시기를 바랍니다.`]}
                     >
                       {isLoadingTTS && !ttsCache[memorial.sermon || `우리의 삶은 잠시 머무는 것이지만, 하나님 안에서의 생명은 영원합니다. 슬픔 가운데 있는 유가족들에게 하늘의 위로가 함께 하시기를 바랍니다.`] ? (
-                        <div classname="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"/>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                       ) : isPlaying ? (
-                        <pause size="{16}" classname="mr-2"/>
+                        <Pause size={16} className="mr-2" />
                       ) : (
-                        <volume2 size="{16}" classname="mr-2"/>
+                        <Volume2 size={16} className="mr-2" />
                       )}
                       {isPlaying ? '중지' : '나레이션 듣기'}
                     </Button>
@@ -546,22 +590,25 @@ export default function ServicePlayer() {
               )}
 
               {step.id === 'eulogy' && (
-                <div classname="space-y-6 w-full">
-                  <div classname="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[300px] overflow-y-auto">
-                    <p classname="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
+                <div className="space-y-6 w-full">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[300px] overflow-y-auto">
+                    <p className="text-white/80 leading-relaxed whitespace-pre-wrap font-serif">
                       {memorial.eulogy}
                     </p>
                   </div>
-                  <div classname="flex justify-center">
-                    <button variant="outline" classname="rounded-full h-12 px-6 border-white/30 text-white hover:bg-white/10" onclick="{()" ==""> loadTTS(memorial.eulogy)}
+                  <div className="flex justify-center">
+                    <Button 
+                      variant="outline" 
+                      className="rounded-full h-12 px-6 border-white/30 text-white hover:bg-white/10"
+                      onClick={() => loadTTS(memorial.eulogy)}
                       disabled={isLoadingTTS && !ttsCache[memorial.eulogy]}
                     >
                       {isLoadingTTS && !ttsCache[memorial.eulogy] ? (
-                        <div classname="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"/>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                       ) : isPlaying ? (
-                        <pause size="{20}" fill="currentColor" classname="mr-2"/>
+                        <Pause size={20} fill="currentColor" className="mr-2" />
                       ) : (
-                        <volume2 size="{20}" classname="mr-2"/>
+                        <Volume2 size={20} className="mr-2" />
                       )}
                       {isPlaying ? '중지' : '나레이션 듣기'}
                     </Button>
@@ -570,22 +617,26 @@ export default function ServicePlayer() {
               )}
 
               {step.id === 'lord_prayer' && (
-                <div classname="space-y-6 w-full max-w-lg">
-                  <div classname="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[400px] overflow-y-auto">
-                    <p classname="text-sm text-white/80 leading-relaxed font-serif whitespace-pre-wrap">
+                <div className="space-y-6 w-full max-w-lg">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 text-left max-h-[400px] overflow-y-auto">
+                    <p className="text-sm text-white/80 leading-relaxed font-serif whitespace-pre-wrap">
                       {LORD_PRAYER}
                     </p>
                   </div>
-                  <div classname="flex justify-center">
-                    <button variant="outline" size="sm" classname="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10" onclick="{()" ==""> loadTTS(LORD_PRAYER)}
+                  <div className="flex justify-center">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="rounded-full border-white/30 text-white/70 hover:text-white hover:bg-white/10"
+                      onClick={() => loadTTS(LORD_PRAYER)}
                       disabled={isLoadingTTS && !ttsCache[LORD_PRAYER]}
                     >
                       {isLoadingTTS && !ttsCache[LORD_PRAYER] ? (
-                        <div classname="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"/>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                       ) : isPlaying ? (
-                        <pause size="{16}" classname="mr-2"/>
+                        <Pause size={16} className="mr-2" />
                       ) : (
-                        <volume2 size="{16}" classname="mr-2"/>
+                        <Volume2 size={16} className="mr-2" />
                       )}
                       {isPlaying ? '중지' : '나레이션 듣기'}
                     </Button>
@@ -594,12 +645,14 @@ export default function ServicePlayer() {
               )}
 
               {step.id === 'closing' && (
-                <div classname="space-y-6">
-                  <p classname="text-lg text-white/80">
+                <div className="space-y-6">
+                  <p className="text-lg text-white/80">
                     이것으로 {memorial.name}님의<br/>
                     추도 예배를 마칩니다.
                   </p>
-                  <button classname="bg-primary text-text hover:bg-primary/90" onclick="{()" ==""> navigate(`/memorial/${id}`)}
+                  <Button 
+                    className="bg-primary text-text hover:bg-primary/90"
+                    onClick={() => navigate(`/memorial/${id}`)}
                   >
                     나가기
                   </Button>
@@ -611,23 +664,34 @@ export default function ServicePlayer() {
       </div>
 
       {/* Footer Controls */}
-      <div classname="h-24 px-4 sm:px-8 pb-8 flex items-center justify-between z-10">
-        <button variant="ghost" classname="text-white/50 hover:text-white hover:bg-white/10 whitespace-nowrap flex-shrink-0" onclick="{prevStep}" disabled="{currentStep" =="=" 0}="">
-          <chevronleft classname="mr-1 sm:mr-2"/> 이전
+      <div className="h-24 px-4 sm:px-8 pb-8 flex items-center justify-between z-10">
+        <Button 
+          variant="ghost" 
+          className="text-white/50 hover:text-white hover:bg-white/10 whitespace-nowrap flex-shrink-0"
+          onClick={prevStep}
+          disabled={currentStep === 0}
+        >
+          <ChevronLeft className="mr-1 sm:mr-2" /> 이전
         </Button>
 
-        <div classname="flex space-x-1 sm:space-x-2 px-2">
+        <div className="flex space-x-1 sm:space-x-2 px-2">
           {steps.map((_, i) => (
-            <div key="{i}" classname="{`w-1.5" h-1.5="" sm:w-2="" sm:h-2="" rounded-full="" transition-colors="" ${i="==" currentstep="" ?="" 'bg-primary'="" :="" 'bg-white="" 20'}`}=""/>
+            <div 
+              key={i} 
+              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors ${i === currentStep ? 'bg-primary' : 'bg-white/20'}`} 
+            />
           ))}
         </div>
 
         {currentStep < steps.length - 1 ? (
-          <button classname="bg-accent text-white hover:bg-accent/90 border-none whitespace-nowrap flex-shrink-0" onclick="{nextStep}">
-            다음 <chevronright classname="ml-1 sm:ml-2"/>
+          <Button 
+            className="bg-accent text-white hover:bg-accent/90 border-none whitespace-nowrap flex-shrink-0"
+            onClick={nextStep}
+          >
+            다음 <ChevronRight className="ml-1 sm:ml-2" />
           </Button>
         ) : (
-          <div classname="w-20 sm:w-24"/>
+          <div className="w-20 sm:w-24" />
         )}
       </div>
     </div>

@@ -17,35 +17,36 @@ import MemorialDetail from './pages/MemorialDetail';
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   
-  if (loading) return <div classname="min-h-screen flex items-center justify-center">Loading...</div>;
-  if (!user) return <navigate to="/login" replace=""/>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (!user) return <Navigate to="/login" replace />;
   
   return <>{children}</>;
 };
 
 export default function App() {
   return (
-    <authprovider>
-      <browserrouter>
-        <routes>
-          <route path="/" element="{&lt;LandingPage"/>} />
-          <route path="/login" element="{&lt;LoginPage"/>} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
           
-          <route element="{&lt;ProtectedRoute"><layout/></ProtectedRoute>}>
-            <route path="/dashboard" element="{&lt;Dashboard"/>} />
-            <route path="/create" element="{&lt;CreateMemorial"/>} />
-            <route path="/edit/:id" element="{&lt;CreateMemorial"/>} />
-            <route path="/profile" element="{&lt;ProfilePage"/>} />
-            <route path="/memorial/:id" element="{&lt;MemorialDetail"/>} />
+          <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/create" element={<CreateMemorial />} />
+            <Route path="/edit/:id" element={<CreateMemorial />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/memorial/:id" element={<MemorialDetail />} />
           </Route>
           
           {/* Service Player is fullscreen, so it's outside Layout */}
-          <route path="/service/:id" element="{" <protectedroute="">
-              <serviceplayer/>
+          <Route path="/service/:id" element={
+            <ProtectedRoute>
+              <ServicePlayer />
             </ProtectedRoute>
           } />
           
-          <route path="*" element="{&lt;Navigate" to="/" replace=""/>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

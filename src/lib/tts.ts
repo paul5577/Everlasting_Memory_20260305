@@ -2,7 +2,7 @@ import { GoogleGenAI, Modality } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export async function generateSpeech(text: string): Promise<string |="" null=""> {
+export async function generateSpeech(text: string): Promise<string | null> {
   if (!text || text.trim() === "") return null;
   
   try {

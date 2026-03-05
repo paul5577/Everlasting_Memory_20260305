@@ -14,13 +14,13 @@ interface AuthContextType {
   loading: boolean;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
-  updateProfile: (data: Partial<user>) => Promise<void>;
+  updateProfile: (data: Partial<User>) => Promise<void>;
 }
 
-const AuthContext = createContext<authcontexttype |="" undefined="">(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<user |="" null="">(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   // const navigate = useNavigate(); // Can't use navigate here if AuthProvider is outside Router
 
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   };
 
-  const updateProfile = async (data: Partial<user>) => {
+  const updateProfile = async (data: Partial<User>) => {
     if (!user) return;
     const updatedUser = { ...user, ...data };
     localStorage.setItem('auth_user', JSON.stringify(updatedUser));
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <authcontext.provider value="{{" user,="" loading,="" signin,="" signout,="" updateprofile="" }}="">
+    <AuthContext.Provider value={{ user, loading, signIn, signOut, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

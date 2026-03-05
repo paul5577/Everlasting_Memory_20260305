@@ -21,34 +21,36 @@ export default function Layout() {
   ];
 
   return (
-    <div classname="min-h-screen bg-base flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden relative">
+    <div className="min-h-screen bg-base flex flex-col max-w-md mx-auto shadow-2xl overflow-hidden relative">
       {/* Header */}
-      <header classname="h-14 px-4 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-primary/20">
-        <h1 classname="font-serif text-lg font-medium text-text">Everlasting Memory</h1>
-        <button onclick="{()" ==""> signOut()} className="p-2 text-text/60 hover:text-accent">
-          <logout size="{20}"/>
+      <header className="h-14 px-4 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-primary/20">
+        <h1 className="font-serif text-lg font-medium text-text">Everlasting Memory</h1>
+        <button onClick={() => signOut()} className="p-2 text-text/60 hover:text-accent">
+          <LogOut size={20} />
         </button>
       </header>
 
       {/* Main Content */}
-      <main classname="flex-1 overflow-y-auto pb-20 p-4">
-        <outlet/>
+      <main className="flex-1 overflow-y-auto pb-20 p-4">
+        <Outlet />
       </main>
 
       {/* Bottom Navigation */}
       {location.pathname !== '/create' && (
-        <nav classname="h-16 bg-white border-t border-primary/20 fixed bottom-0 w-full max-w-md flex items-center justify-around px-2 z-50">
+        <nav className="h-16 bg-white border-t border-primary/20 fixed bottom-0 w-full max-w-md flex items-center justify-around px-2 z-50">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
-              <button key="{item.path}" onclick="{()" ==""> navigate(item.path)}
+              <button
+                key={item.path}
+                onClick={() => navigate(item.path)}
                 className={cn(
                   "flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors",
                   isActive ? "text-accent" : "text-text/40 hover:text-text/60"
                 )}
               >
-                <item.icon size="{24}" strokewidth="{isActive" ?="" 2.5="" :="" 2}=""/>
-                <span classname="text-[10px] font-medium">{item.label}</span>
+                <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                <span className="text-[10px] font-medium">{item.label}</span>
               </button>
             );
           })}

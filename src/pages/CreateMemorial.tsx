@@ -63,7 +63,7 @@ export default function CreateMemorial() {
   const { addMemorial, updateMemorial, getMemorial } = useMemorials();
   const { user } = useAuth();
   
-  const [formData, setFormData] = useState<omit<memorial, 'id'="">>({
+  const [formData, setFormData] = useState<Omit<Memorial, 'id'>>({
     name: '',
     birthDate: '',
     deathDate: '',
@@ -83,11 +83,11 @@ export default function CreateMemorial() {
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
-  const [createdId, setCreatedId] = useState<string |="" null="">(null);
+  const [createdId, setCreatedId] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [galleryInput, setGalleryInput] = useState('');
   const [pdfContext, setPdfContext] = useState('');
-  const [pdfFileName, setPdfFileName] = useState<string |="" null="">(null);
+  const [pdfFileName, setPdfFileName] = useState<string | null>(null);
   const [isGeneratingEulogy, setIsGeneratingEulogy] = useState(false);
   const [isGeneratingBiography, setIsGeneratingBiography] = useState(false);
   const [isUploadingPdf, setIsUploadingPdf] = useState(false);
@@ -143,7 +143,7 @@ export default function CreateMemorial() {
     }
   };
 
-  const handlePdfUpload = async (e: React.ChangeEvent<htmlinputelement>) => {
+  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -169,7 +169,7 @@ export default function CreateMemorial() {
     }
   };
 
-  const handleGalleryUpload = async (e: React.ChangeEvent<htmlinputelement>) => {
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
@@ -231,12 +231,12 @@ export default function CreateMemorial() {
     }
   }, [id, getMemorial, user]);
 
-  const handleChange = (e: React.ChangeEvent<htmlinputelement |="" htmltextareaelement="" |="" htmlselectelement="">) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<htmlinputelement>) => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setFormData(prev => ({ ...prev, [name]: checked }));
   };
@@ -278,7 +278,7 @@ export default function CreateMemorial() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<htmlinputelement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -291,40 +291,54 @@ export default function CreateMemorial() {
 
   if (showSuccess) {
     return (
-      <div classname="min-h-screen flex items-center justify-center p-6 bg-base">
-        <motion.div initial="{{" opacity:="" 0,="" scale:="" 0.9="" }}="" animate="{{" opacity:="" 1,="" scale:="" 1="" }}="" classname="w-full max-w-md">
-          <card classname="border-primary/20 shadow-xl">
-            <cardcontent classname="pt-8 pb-8 text-center space-y-6">
-              <div classname="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <check size="{40}" strokewidth="{3}"/>
+      <div className="min-h-screen flex items-center justify-center p-6 bg-base">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md"
+        >
+          <Card className="border-primary/20 shadow-xl">
+            <CardContent className="pt-8 pb-8 text-center space-y-6">
+              <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Check size={40} strokeWidth={3} />
               </div>
               
-              <div classname="space-y-2">
-                <h2 classname="text-2xl font-serif font-medium text-text">
+              <div className="space-y-2">
+                <h2 className="text-2xl font-serif font-medium text-text">
                   {id ? '수정이 완료되었습니다' : '추모 공간이 생성되었습니다'}
                 </h2>
-                <p classname="text-text/60">
+                <p className="text-text/60">
                   아래 링크를 복사하여 가족들과 공유하세요.
                 </p>
               </div>
 
-              <div classname="p-4 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between gap-3">
-                <div classname="text-sm text-text/60 truncate flex-1 text-left">
+              <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between gap-3">
+                <div className="text-sm text-text/60 truncate flex-1 text-left">
                   {window.location.origin}/memorial/{createdId}
                 </div>
-                <button size="sm" variant="outline" classname="{copied" ?="" "bg-green-50="" text-green-600="" border-green-200"="" :="" ""}="" onclick="{handleCopyLink}">
-                  {copied ? <check size="{16}"/> : <copy size="{16}"/>}
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className={copied ? "bg-green-50 text-green-600 border-green-200" : ""}
+                  onClick={handleCopyLink}
+                >
+                  {copied ? <Check size={16} /> : <Copy size={16} />}
                 </Button>
               </div>
 
-              <div classname="grid grid-cols-2 gap-3 pt-4">
-                <button variant="outline" classname="w-full" onclick="{()" ==""> navigate('/dashboard')}
+              <div className="grid grid-cols-2 gap-3 pt-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => navigate('/dashboard')}
                 >
-                  <home size="{18}" classname="mr-2"/> 홈으로
+                  <Home size={18} className="mr-2" /> 홈으로
                 </Button>
-                <button classname="w-full bg-accent text-white hover:bg-accent/90" onclick="{()" ==""> navigate(`/memorial/${createdId}`)}
+                <Button 
+                  className="w-full bg-accent text-white hover:bg-accent/90"
+                  onClick={() => navigate(`/memorial/${createdId}`)}
                 >
-                  <share2 size="{18}" classname="mr-2"/> 바로 가기
+                  <Share2 size={18} className="mr-2" /> 바로 가기
                 </Button>
               </div>
             </CardContent>
@@ -335,144 +349,197 @@ export default function CreateMemorial() {
   }
 
   return (
-    <div classname="space-y-6 pb-32"> {/* Increased bottom padding for fixed button */}
-      <div classname="flex items-center space-x-4">
-        <button variant="ghost" size="sm" onclick="{()" ==""> navigate('/dashboard')} className="p-0">
-          <chevronleft/>
+    <div className="space-y-6 pb-32"> {/* Increased bottom padding for fixed button */}
+      <div className="flex items-center space-x-4">
+        <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')} className="p-0">
+          <ChevronLeft />
         </Button>
-        <h2 classname="text-xl font-serif font-medium text-text">{id ? '추모 정보 수정' : '새로운 추모 생성'}</h2>
+        <h2 className="text-xl font-serif font-medium text-text">{id ? '추모 정보 수정' : '새로운 추모 생성'}</h2>
       </div>
 
-      <form onsubmit="{handleSubmit}" classname="space-y-8">
-        <card>
-          <cardcontent classname="space-y-4 pt-6">
-            <label classname="text-sm font-medium text-text/70 flex items-center">
-              <fileup size="{16}" classname="mr-2"/> 참고 자료 업로드 (PDF)
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <Card>
+          <CardContent className="space-y-4 pt-6">
+            <label className="text-sm font-medium text-text/70 flex items-center">
+              <FileUp size={16} className="mr-2" /> 참고 자료 업로드 (PDF)
             </label>
-            <p classname="text-xs text-text/50">고인의 약력이나 추모사 작성 시 참고할 PDF 파일을 업로드해주세요.</p>
-            <div classname="w-full">
-              <label htmlfor="pdf-upload" classname="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-primary/40 rounded-xl cursor-pointer bg-base/30 hover:bg-base/50 transition-colors">
-                <div classname="flex flex-col items-center justify-center">
+            <p className="text-xs text-text/50">고인의 약력이나 추모사 작성 시 참고할 PDF 파일을 업로드해주세요.</p>
+            <div className="w-full">
+              <label 
+                htmlFor="pdf-upload" 
+                className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-primary/40 rounded-xl cursor-pointer bg-base/30 hover:bg-base/50 transition-colors"
+              >
+                <div className="flex flex-col items-center justify-center">
                   {isUploadingPdf ? (
-                    <loader2 classname="w-8 h-8 text-accent animate-spin"/>
+                    <Loader2 className="w-8 h-8 text-accent animate-spin" />
                   ) : pdfFileName ? (
                     <>
-                      <filetext classname="w-8 h-8 text-accent mb-2"/>
-                      <p classname="text-sm text-text font-medium">{pdfFileName}</p>
-                      <p classname="text-xs text-text/40 mt-1">클릭하여 파일 변경</p>
+                      <FileText className="w-8 h-8 text-accent mb-2" />
+                      <p className="text-sm text-text font-medium">{pdfFileName}</p>
+                      <p className="text-xs text-text/40 mt-1">클릭하여 파일 변경</p>
                     </>
                   ) : (
                     <>
-                      <fileup classname="w-8 h-8 text-text/40 mb-2"/>
-                      <p classname="text-sm text-text/60">PDF 파일 선택</p>
+                      <FileUp className="w-8 h-8 text-text/40 mb-2" />
+                      <p className="text-sm text-text/60">PDF 파일 선택</p>
                     </>
                   )}
                 </div>
-                <input id="pdf-upload" type="file" accept=".pdf" classname="hidden" onchange="{handlePdfUpload}" disabled="{isUploadingPdf}"/>
+                <input id="pdf-upload" type="file" accept=".pdf" className="hidden" onChange={handlePdfUpload} disabled={isUploadingPdf} />
               </label>
             </div>
             {pdfContext && (
-              <div classname="flex items-center text-xs text-green-600 bg-green-50 p-2 rounded-lg">
-                <check size="{14}" classname="mr-1"/> PDF 내용이 로드되었습니다. ({pdfContext.length}자)
+              <div className="flex items-center text-xs text-green-600 bg-green-50 p-2 rounded-lg">
+                <Check size={14} className="mr-1" /> PDF 내용이 로드되었습니다. ({pdfContext.length}자)
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* Step 1: Basic Info */}
-        <motion.div initial="{{" opacity:="" 0,="" y:="" 10="" }}="" animate="{{" opacity:="" 1,="" y:="" 0="" }}="" classname="space-y-4">
-          <card>
-            <cardcontent classname="space-y-4 pt-6">
-              <div classname="flex items-center justify-between">
-                 <label classname="text-sm font-medium text-text/70 flex items-center">
-                  <star size="{16}" classname="mr-2 text-yellow-500"/> 프리미엄 기능
-                  {user?.isAdmin && <span classname="ml-2 text-xs bg-accent/10 text-accent px-2 py-0.5 rounded-full">관리자 권한</span>}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-4"
+        >
+          <Card>
+            <CardContent className="space-y-4 pt-6">
+              <div className="flex items-center justify-between">
+                 <label className="text-sm font-medium text-text/70 flex items-center">
+                  <Star size={16} className="mr-2 text-yellow-500" /> 프리미엄 기능
+                  {user?.isAdmin && <span className="ml-2 text-xs bg-accent/10 text-accent px-2 py-0.5 rounded-full">관리자 권한</span>}
                 </label>
-                <div classname="flex items-center">
-                  <input type="checkbox" name="isPremium" id="isPremium" checked="{formData.isPremium}" onchange="{handleCheckboxChange}" classname="mr-2 w-4 h-4 accent-accent"/>
-                  <label htmlfor="isPremium" classname="text-sm text-text/60">활성화</label>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="isPremium"
+                    id="isPremium"
+                    checked={formData.isPremium}
+                    onChange={handleCheckboxChange}
+                    className="mr-2 w-4 h-4 accent-accent"
+                  />
+                  <label htmlFor="isPremium" className="text-sm text-text/60">활성화</label>
                 </div>
               </div>
 
-              <div classname="space-y-2">
-                <label classname="text-sm font-medium text-text/70 flex items-center">
-                  <user size="{16}" classname="mr-2"/> 고인 성함
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text/70 flex items-center">
+                  <User size={16} className="mr-2" /> 고인 성함
                 </label>
-                <input type="text" name="name" required="" placeholder="예: 홍길동" classname="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all bg-base/50" value="{formData.name}" onchange="{handleChange}"/>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="예: 홍길동"
+                  className="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-all bg-base/50"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
               </div>
 
-              <div classname="grid grid-cols-2 gap-4">
-                <div classname="space-y-2">
-                  <label classname="text-sm font-medium text-text/70 flex items-center">
-                    <calendar size="{16}" classname="mr-2"/> 생년월일
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-text/70 flex items-center">
+                    <Calendar size={16} className="mr-2" /> 생년월일
                   </label>
-                  <input type="date" name="birthDate" required="" classname="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50" value="{formData.birthDate}" onchange="{handleChange}"/>
+                  <input
+                    type="date"
+                    name="birthDate"
+                    required
+                    className="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50"
+                    value={formData.birthDate}
+                    onChange={handleChange}
+                  />
                 </div>
-                <div classname="space-y-2">
-                  <label classname="text-sm font-medium text-text/70">기일</label>
-                  <input type="date" name="deathDate" required="" classname="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50" value="{formData.deathDate}" onchange="{handleChange}"/>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-text/70">기일</label>
+                  <input
+                    type="date"
+                    name="deathDate"
+                    required
+                    className="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50"
+                    value={formData.deathDate}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
-              <div classname="space-y-2">
-                <label classname="text-sm font-medium text-text/70">관계</label>
-                <input type="text" name="relationship" required="" placeholder="예: 할아버지, 어머니" classname="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50" value="{formData.relationship}" onchange="{handleChange}"/>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text/70">관계</label>
+                <input
+                  type="text"
+                  name="relationship"
+                  required
+                  placeholder="예: 할아버지, 어머니"
+                  className="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50"
+                  value={formData.relationship}
+                  onChange={handleChange}
+                />
               </div>
             </CardContent>
           </Card>
 
-          <card>
-            <cardcontent classname="space-y-4 pt-6">
-              <label classname="text-sm font-medium text-text/70 flex items-center">
-                <upload size="{16}" classname="mr-2"/> 영정 사진 선택
+          <Card>
+            <CardContent className="space-y-4 pt-6">
+              <label className="text-sm font-medium text-text/70 flex items-center">
+                <Upload size={16} className="mr-2" /> 영정 사진 선택
               </label>
               
               {/* File Upload Input */}
-              <div classname="w-full">
-                <label htmlfor="photo-upload" classname="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-primary/40 rounded-xl cursor-pointer bg-base/30 hover:bg-base/50 transition-colors">
-                  <div classname="flex flex-col items-center justify-center pt-5 pb-6">
-                    <upload classname="w-8 h-8 text-text/40 mb-2"/>
-                    <p classname="text-sm text-text/60">클릭하여 사진 업로드</p>
+              <div className="w-full">
+                <label 
+                  htmlFor="photo-upload" 
+                  className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-primary/40 rounded-xl cursor-pointer bg-base/30 hover:bg-base/50 transition-colors"
+                >
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <Upload className="w-8 h-8 text-text/40 mb-2" />
+                    <p className="text-sm text-text/60">클릭하여 사진 업로드</p>
                   </div>
-                  <input id="photo-upload" type="file" accept="image/*" classname="hidden" onchange="{handleImageUpload}"/>
+                  <input id="photo-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
                 </label>
               </div>
 
-              <div classname="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 {PRESET_PHOTOS.map((url, idx) => (
-                  <button key="{idx}" type="button" onclick="{()" ==""> setFormData(prev => ({ ...prev, photoUrl: url }))}
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, photoUrl: url }))}
                     className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${formData.photoUrl === url ? 'border-accent ring-2 ring-accent/20' : 'border-transparent'}`}
                   >
-                    <img src="{url}" alt="Preset" classname="w-full h-full object-cover" referrerpolicy="no-referrer"/>
+                    <img src={url} alt="Preset" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </button>
                 ))}
               </div>
               
               {/* Preview Selected Image */}
               {formData.photoUrl && (
-                <div classname="mt-4 text-center">
-                  <p classname="text-xs text-text/50 mb-2">선택된 사진 미리보기</p>
-                  <div classname="w-32 h-40 mx-auto rounded-lg overflow-hidden border border-primary shadow-sm">
-                    <img src="{formData.photoUrl}" alt="Selected" classname="w-full h-full object-cover" referrerpolicy="no-referrer"/>
+                <div className="mt-4 text-center">
+                  <p className="text-xs text-text/50 mb-2">선택된 사진 미리보기</p>
+                  <div className="w-32 h-40 mx-auto rounded-lg overflow-hidden border border-primary shadow-sm">
+                    <img src={formData.photoUrl} alt="Selected" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                 </div>
               )}
             </CardContent>
           </Card>
 
-          <card>
-            <cardcontent classname="space-y-4 pt-6">
-              <div classname="space-y-2">
-                <label classname="text-sm font-medium text-text/70 flex items-center mb-2">
-                  <bookopen size="{16}" classname="mr-2"/> 예배 순서 선택
+          <Card>
+            <CardContent className="space-y-4 pt-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text/70 flex items-center mb-2">
+                  <BookOpen size={16} className="mr-2" /> 예배 순서 선택
                 </label>
-                <div classname="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {[
                     { id: 'simple', label: '간단' },
                     { id: 'standard', label: '중간' },
                     { id: 'formal', label: '정식' }
                   ].map((type) => (
-                    <button key="{type.id}" type="button" onclick="{()" ==""> handleServiceTypeChange(type.id as ServiceType)}
+                    <button
+                      key={type.id}
+                      type="button"
+                      onClick={() => handleServiceTypeChange(type.id as ServiceType)}
                       className={`py-2 px-1 rounded-lg text-sm border transition-all ${
                         formData.serviceType === type.id 
                           ? 'bg-accent text-white border-accent' 
@@ -485,21 +552,34 @@ export default function CreateMemorial() {
                 </div>
               </div>
 
-              <div classname="space-y-2">
-                <div classname="flex items-center justify-between">
-                  <label classname="text-sm font-medium text-text/70 flex items-center">
-                    <filetext size="{16}" classname="mr-2"/> 대표 기도문
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium text-text/70 flex items-center">
+                    <FileText size={16} className="mr-2" /> 대표 기도문
                   </label>
                 </div>
-                <div classname="flex flex-wrap gap-2 mb-2">
+                <div className="flex flex-wrap gap-2 mb-2">
                   {PRAYER_TEMPLATES.map((t, i) => (
-                    <button key="{i}" type="button" variant="outline" size="xs" classname="text-[10px] h-6 px-2 rounded-full" onclick="{()" ==""> setFormData(prev => ({ ...prev, representativePrayer: t.content }))}
+                    <Button 
+                      key={i} 
+                      type="button" 
+                      variant="outline" 
+                      size="xs" 
+                      className="text-[10px] h-6 px-2 rounded-full"
+                      onClick={() => setFormData(prev => ({ ...prev, representativePrayer: t.content }))}
                     >
                       {t.title} 복사
                     </Button>
                   ))}
                 </div>
-                <textarea name="representativePrayer" rows="{4}" placeholder="가족 중 한 분 또는 인도자가 기도할 내용을 적어주세요." classname="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50 resize-none" value="{formData.representativePrayer}" onchange="{handleChange}"/>
+                <textarea
+                  name="representativePrayer"
+                  rows={4}
+                  placeholder="가족 중 한 분 또는 인도자가 기도할 내용을 적어주세요."
+                  className="w-full px-4 py-3 rounded-xl border border-primary/30 focus:border-accent outline-none bg-base/50 resize-none"
+                  value={formData.representativePrayer}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="space-y-2">
